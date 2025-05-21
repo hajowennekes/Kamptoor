@@ -85,7 +85,7 @@ with tab1:
             antwoord = random.choice(vrij_antwoorden)
             
             # Toon het antwoord
-            st.success(f"Je verzoek is ingediend! Reactie van je manager: {antwoord}")
+            st.success(f"Je verzoek is ingediend! Reactie van je leidinggevende:   {antwoord}")
             
             # Toevoegen aan geschiedenis
             st.session_state.history.append({
@@ -111,7 +111,7 @@ with tab2:
             antwoord = random.choice(opslag_antwoorden)
             
             # Toon het antwoord
-            st.success(f"Je opslag verzoek is ingediend! Reactie van je manager: {antwoord}")
+            st.success(f"Je opslag verzoek is ingediend! Reactie van je leidinggevende:   {antwoord}")
             
             # Toevoegen aan geschiedenis
             st.session_state.history.append({
@@ -135,31 +135,29 @@ with tab3:
                 naam = st.text_input("Naam", key="naam_klacht")
                 achternaam = st.text_input("Achternaam", key="achternaam_klacht")
                 functie = st.text_input("Functie", key="functie_klacht")
-                salaris = st.number_input("Gewicht (Kg)", min_value=0, key="gewicht_klacht")
+                gewicht = st.number_input("Gewicht (Kg)", min_value=0, key="gewicht_klacht")
             
             with col2:
                 fav_kampleiding = st.text_input("Favoriete kampleiding", key="fav_kampleiding_klacht")
                 geboortedatum = st.date_input("Geboortedatum", min_value=datetime.date(1900, 1, 1), key="geboortedatum_klacht")
                 fav_spel = st.text_input("Je favoriete spel", key="fav_spel_klacht")
                 som = st.number_input("9 + 10 =", key="som_klacht")
-                thema = st.text_input("Wat denk je dat het thema wordt dit jaar?", key="thema_klacht")
+                klacht = st.text_input("Wat is je klacht?", key="klacht_klacht")
             
             submit_klacht = st.form_submit_button("Verzenden")
             
             if submit_klacht:
                 # Valideer alle velden
-                all_filled = all([naam, achternaam, functie, salaris > 0, fav_kampleiding,
-                                fav_spel, som, thema])
+                all_filled = all([naam, achternaam, functie, gewicht > 0, fav_kampleiding,
+                                fav_spel, som, klacht])
                 
                 if not all_filled:
                     st.error("Alle velden zijn verplicht!")
                 elif fav_kampleiding.lower() != "Hajo":
                     st.error("Fout, je favoriete kampleiding kan er maar 1 zijn, het begint met een H")
-                # Gewijzigd: 9 + 10 = 21 in plaats van 19
-                elif som != 21:
-                    st.error("9 + 10 = 21")
+                # elif som != 21:
+                #     st.error("9 + 10 = 21")
                 else:
-                    # Ga naar de volgende stap
                     st.session_state.klacht_stage = 1
                     st.session_state.form_data = {
                         "naam": naam,
@@ -191,7 +189,7 @@ with tab3:
                     # Ga naar CAPTCHA
                     st.session_state.klacht_stage = 2
                     st.session_state.bevestiging = {
-                        "naam": bevestig_naam,
+                        "handtekening": bevestig_naam,
                         "datum": vandaag
                     }
                     st.rerun()
@@ -244,17 +242,13 @@ with tab4:
     submit_feedback = st.button("Indienen", key="submit_feedback")
     
     if submit_feedback:
-        # Controleer of het verzoek minimaal 15 woorden bevat
         if len(feedback_verzoek.split()) < 15:
             st.error("Je feedback is te kort. Gebruik minimaal 15 woorden om je feedback in te dienen.")
         else:
-            # Kies willekeurig antwoord
             antwoord = random.choice(feedback_antwoorden)
             
-            # Toon het antwoord
             st.success(f"Je feedback is ingediend! Reactie van het kantoor: {antwoord}")
-            
-            # Toevoegen aan geschiedenis
+
             st.session_state.history.append({
                 "type": "Feedback",
                 "verzoek": feedback_verzoek,

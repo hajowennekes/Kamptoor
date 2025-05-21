@@ -155,23 +155,22 @@ with tab3:
                     st.error("Alle velden zijn verplicht!")
                 elif fav_kampleiding.lower() != "Hajo":
                     st.error("Fout, je favoriete kampleiding kan er maar 1 zijn, het begint met een H")
-                    st.rerun()
                 elif som != 21:
                     st.error("9 + 10 = 21")
-                    st.rerun()
                 else:
                     st.session_state.klacht_stage = 1
                     st.session_state.form_data = {
                         "naam": naam,
                         "achternaam": achternaam,
                         "functie": functie,
-                        "salaris": salaris,
+                        "gewicht": gewicht,
                         "fav_kampleiding": fav_kampleiding,
                         "geboortedatum": geboortedatum,
                         "fav_spel": fav_spel,
                         "som": som,
-                        "thema": thema
+                        "klacht": klacht
                     }
+
                     st.rerun()
     
     elif st.session_state.klacht_stage == 1:

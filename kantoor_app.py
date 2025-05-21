@@ -57,9 +57,9 @@ def reset_other_slider(changed_slider):
             st.session_state.slider2 = 0
 
 # Standaard antwoorden (kan later aangepast worden)
-vrij_antwoorden = ["A", "B", "C", "D", "E", "F", "G", "H"]
-opslag_antwoorden = ["A", "B", "C", "D", "E", "F", "G", "H"]
-feedback_antwoorden = ["A", "B", "C", "D", "E", "F", "G", "H"]
+vrij_antwoorden = ["Je denkt dat schaakstukken zichzelf verplaatsen?", "Verlof is voor mensen die vervanging hebben geregeld. Heb jij vervanging geregeld?", "Je functie is al overgenomen door een pion. Letterlijk.", "Ik leg je aanvraag op de stapel. (De prullenbak is tegenwoordig een stapel, toch?)", "Je kunt pas vrij zijn als je je innerlijke manager loslaat.", "Verlof is geen schaakopening.", "Je vraagt om vrij. Wij vragen ons af of je het verdient.", "Mooi dat je vooruit plant. Helaas kan het rooster dat net iets beter."]
+opslag_antwoorden = ["Zelfs een pion kan jouw werk doen", "Wie het kleine niet eert, is het grote niet weerd", "Minimalisme is een levensstijl. Dit is je kans om te oefenen.", "Promotie begint met initiatief. Niet met dit formulier.", "Je salaris is gebaseerd op prestaties. Dus... nog even geduld.", "Als we iedereen zouden belonen die zich ondergewaardeerd voelt, gingen we failliet.", "Laten we dit gesprek parkeren tot na de evaluatie van je groeitraject.", "We vinden het belangrijk om beloning en impact in balans te houden."]
+feedback_antwoorden = ["Dank je voor je feedback! We hebben het meteen genegeerd.", "Jouw mening telt. Zolang het maximaal 140 tekens zijn.", "Als je vindt dat het beter kan, doe het dan lekker zelf.", "We bewaren je feedback voor het volgende kamp.", "We hebben een speciaal mapje voor dit soort berichten. Het heet: ‘het archief’.", "Iedere mening telt. Sommige alleen wat minder.", "We waarderen je betrokkenheid, ook als die niet direct in lijn ligt met onze koers.", "Fijn dat je je betrokken voelt. Nu nog even kijken of het ook bijdraagt."]
 
 # Header
 st.title("📝 Pion & Partners")
@@ -71,7 +71,7 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs(["Vrij aanvragen", "Opslag aanvragen", "K
 # Tab 1: Vrij aanvragen
 with tab1:
     st.header("Verlof aanvragen")
-    st.write("Vul hier je verzoek in om vrij te krijgen (minimaal 15 woorden)")
+    st.write("Vul hier je verzoek in om vrij te krijgen")
     
     vrij_verzoek = st.text_area("Waarom wilt u vrij?", height=150, key="vrij_text")
     submit_vrij = st.button("Indienen", key="submit_vrij")
@@ -97,7 +97,7 @@ with tab1:
 # Tab 2: Opslag aanvragen
 with tab2:
     st.header("Opslag aanvragen")
-    st.write("Vul hier je verzoek voor een opslag in (minimaal 15 woorden)")
+    st.write("Vul hier je verzoek voor een opslag in")
     
     opslag_verzoek = st.text_area("Waarom verdien je een opslag?", height=150, key="opslag_text")
     submit_opslag = st.button("Indienen", key="submit_opslag")
@@ -135,11 +135,10 @@ with tab3:
                 naam = st.text_input("Naam", key="naam_klacht")
                 achternaam = st.text_input("Achternaam", key="achternaam_klacht")
                 functie = st.text_input("Functie", key="functie_klacht")
-                salaris = st.number_input("Salaris (€)", min_value=0, key="salaris_klacht")
+                salaris = st.number_input("Gewicht (Kg)", min_value=0, key="gewicht_klacht")
             
             with col2:
                 fav_kampleiding = st.text_input("Favoriete kampleiding", key="fav_kampleiding_klacht")
-                # Gewijzigd: geboortedatum verder terug in de tijd kunnen selecteren
                 geboortedatum = st.date_input("Geboortedatum", min_value=datetime.date(1900, 1, 1), key="geboortedatum_klacht")
                 fav_spel = st.text_input("Je favoriete spel", key="fav_spel_klacht")
                 som = st.number_input("9 + 10 =", key="som_klacht")
@@ -154,11 +153,11 @@ with tab3:
                 
                 if not all_filled:
                     st.error("Alle velden zijn verplicht!")
-                elif fav_kampleiding.lower() != "hajo":
-                    st.error("Je hebt je vergist bij je favoriete kampleiding. Het moet 'Hajo' zijn.")
+                elif fav_kampleiding.lower() != "Hajo":
+                    st.error("Fout, je favoriete kampleiding kan er maar 1 zijn, het begint met een H")
                 # Gewijzigd: 9 + 10 = 21 in plaats van 19
                 elif som != 21:
-                    st.error("9 + 10 = 21. Probeer het opnieuw.")
+                    st.error("9 + 10 = 21")
                 else:
                     # Ga naar de volgende stap
                     st.session_state.klacht_stage = 1
@@ -199,7 +198,7 @@ with tab3:
     
     elif st.session_state.klacht_stage == 2:
         st.write("CAPTCHA Verificatie")
-        st.warning("Sleep één van de drie sliders helemaal naar rechts om je klacht te verzenden")
+        st.warning("Sleep alle drie de sliders helemaal naar rechts om je klacht te verzenden")
         
         # Initialiseer slider waarden als ze nog niet bestaan
         if 'slider1' not in st.session_state:
@@ -239,7 +238,7 @@ with tab3:
 # Tab 4: Feedback geven
 with tab4:
     st.header("Feedback geven aan het kantoor")
-    st.write("Vul hier je feedback in (minimaal 15 woorden)")
+    st.write("Vul hier je feedback in")
     
     feedback_verzoek = st.text_area("Wat is je feedback?", height=150, key="feedback_text")
     submit_feedback = st.button("Indienen", key="submit_feedback")
